@@ -13,7 +13,7 @@ use App\Http\Controllers\ArticleController;
 // Health check for debugging
 Route::get('/health', function () {
     try {
-        \DB::connection()->getPdo();
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
         $dbStatus = 'connected';
     } catch (\Exception $e) {
         $dbStatus = 'error: ' . $e->getMessage();
