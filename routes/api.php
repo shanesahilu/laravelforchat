@@ -10,6 +10,24 @@ use App\Http\Controllers\ArticleController;
 | All routes are prefixed with /api automatically
 */
 
+// Health check for debugging
+Route::get('/health', function () {
+    try {
+        \DB::connection()->getPdo();
+        $dbStatus = 'connected';
+    } catch (\Exception $e) {
+        $dbStatus = 'error: ' . $e->getMessage();
+    }
+    
+    return response()->json([
+        'status' => 'ok',
+        'php' => PHP_VERSION,
+        'laravel' => app()->version(),
+        'database' => $dbStatus,
+        'env' => config('app.env'),
+    ]);
+});
+
 Route::prefix('articles')->group(function () {
     Route::get('/', [ArticleController::class, 'index']);           // GET /api/articles
     Route::get('/latest', [ArticleController::class, 'latest']);    // GET /api/articles/latest
