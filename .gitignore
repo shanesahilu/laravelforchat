@@ -1,0 +1,11 @@
+/vendor
+/node_modules
+/.env
+/database/*.sqlite
+/storage/*.key
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
