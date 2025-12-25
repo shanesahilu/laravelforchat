@@ -2,7 +2,12 @@
 nixPkgs = ["php82", "php82Extensions.pdo_mysql", "php82Extensions.pdo_sqlite", "php82Extensions.mbstring", "php82Extensions.xml", "php82Extensions.curl"]
 
 [phases.install]
-cmds = ["composer install --no-dev --optimize-autoloader"]
+cmds = [
+    "composer install --no-dev --optimize-autoloader",
+    "mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs database",
+    "chmod -R 775 storage database",
+    "touch database/database.sqlite"
+]
 
 [start]
-cmd = "mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs database && touch database/database.sqlite && php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"
+cmd = "php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"
